@@ -20,7 +20,6 @@ namespace SOSPets.Domain.Models
         public DateTime DateCretedProfile { get; set; }
         public DateTime LastUpdate { get; set; }
         public Profile ProfileUser { get; set; }
-        public int QuantityPhoto { get;set; }
         public IList<PhotoProfilePet>? PhotosProfilePet { get; set; }
     }
 }

@@ -1,48 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SOSPets.Data.Repository;
-using SOSPets.Data.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using SOSPets.Data;
 using SOSPets.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SOSPets.ViewModel.Session;
+
 
 namespace SOSPets.Application.Controllers
 {
     [ApiController]
-    internal class AddressController : ControllerBase
+    [Route("address")]
+    public class AddressController : ControllerBase
     {
-        private readonly IDefaultRepository<Address> _repository;
-        public AddressController(IDefaultRepository<Address> addressRepository)
-            => _repository = addressRepository;
+        private readonly DataContextDatabase _dbcontext;
+        public AddressController(DataContextDatabase dbcontext)
+            => _dbcontext = dbcontext;
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
-        {
-           return Ok(await _repository.GetAllAsync());
-        }
+            => Ok(await _dbcontext.Address.AsNoTracking().ToListAsync());
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] Address address)
+        public async Task<IActionResult> Add([FromBody] AddressViewModelInput addressInput)
         {
-            return Ok(address.Add(_repository));
+            _dbcontext.Address.Add(new Address(addressInput));
+            await _dbcontext.SaveChangesAsync();
+            return Created("Salvo com Sucesso!", addressInput);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Address address)
-        {
-            return Ok(address.Update(_repository));
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] int Id)
-        {
-            var address = await _repository.GetAllAsync();
-            address.Remove(address.Where(x => x.Id == Id).First());
-            return Ok("Usuario Excluido");
-        }
+        
 
     }
 }

@@ -9,7 +9,12 @@
   <ItemGroup>
     <Folder Include="Models\Inputs\" />
     <Folder Include="Models\Outputs\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.14" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

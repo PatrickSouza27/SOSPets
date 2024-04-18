@@ -1,15 +1,14 @@
-﻿using SOSPets.Data.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿
+using SOSPets.ViewModel.Session;
+
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SOSPets.Domain.Models
 {
     public class Address
     {
+       
         public int Id { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }
@@ -32,10 +31,15 @@ namespace SOSPets.Domain.Models
             City = city;
         }
 
-
-        public async Task<bool> Add(IDefaultRepository<Address> repository) => await repository.CreateAsync(this);
-        public async Task<bool> Update(IDefaultRepository<Address> repository) => await repository.UpdateAsync(this);
-        public async Task<bool> Delete(IDefaultRepository<Address> repository) => await repository.DeleteAsync(this.Id);
+        public Address(AddressViewModelInput addressViewModelInput)
+        {
+            Street = addressViewModelInput.Street;
+            PostalCode = addressViewModelInput.PostalCode;
+            Neighborhood = addressViewModelInput.Neighborhood;
+            Complement = addressViewModelInput.Complement;
+            Number = addressViewModelInput.Number;
+            City = addressViewModelInput.City;
+        }
         
 
     }
