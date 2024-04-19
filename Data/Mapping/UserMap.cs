@@ -39,11 +39,9 @@ namespace SOSPets.Data.Mapping
                 .HasMaxLength(260);
 
 
-            builder.HasOne(u => u.Address)
+            builder.HasOne(u => u.Fk_Address)
                 .WithOne()
-                .HasForeignKey<Address>(a => a.Id)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .HasForeignKey<Address>(u => u.Id);
 
 
         }

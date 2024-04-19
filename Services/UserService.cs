@@ -18,10 +18,11 @@ namespace SOSPets.Services
             var address = new Address(user.Address);
             userbank.SetAddress(address);
             await _dbcontext.Users.AddAsync(userbank);
+            await _dbcontext.SaveChangesAsync();
         }
 
         public async Task<User?> GetUserByUID(string uid)
-           => await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+           => await _dbcontext.Users.Include(x=> x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
 
         public async Task DeleteUser(string uid)
         {
@@ -43,6 +44,7 @@ namespace SOSPets.Services
             if (user != null)
             {
                 user.Edit(userEdit);
+                _dbcontext.Users.Update(user);
                 await _dbcontext.SaveChangesAsync();
             }
 
@@ -51,7 +53,7 @@ namespace SOSPets.Services
 
         public async Task UpdateAddress(string uid, AddressViewModelInput userEdit)
         {
-            var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+            var user = await _dbcontext.Users.Include(x=> x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
             if (user != null)
             {
                 user.SetAddress(new Address(userEdit));
@@ -62,10 +64,10 @@ namespace SOSPets.Services
 
         public async Task<Address?> GetAddressByUID(string uid)
         {
-            var userComplet = await _dbcontext.Users.Include(x => x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+            var userComplet = await _dbcontext.Users.Include(x => x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
             
             if (userComplet is not null)
-                return userComplet.Address;
+                return userComplet.Fk_Address;
 
             throw new ArgumentNullException("user not found");
         }
