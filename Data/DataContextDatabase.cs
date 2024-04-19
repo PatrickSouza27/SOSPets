@@ -16,6 +16,7 @@ namespace SOSPets.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AddressMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
         }
 
     }
