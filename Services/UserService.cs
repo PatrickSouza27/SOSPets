@@ -60,7 +60,9 @@ namespace SOSPets.Services
             var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
             if (user != null)
             {
-                user.SetAddress(new Address(userEdit));
+
+                user.Address.SetValues(userEdit);
+                _dbcontext.Users.Update(user);
                 await _dbcontext.SaveChangesAsync();
                 return;
             }

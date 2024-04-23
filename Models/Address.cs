@@ -21,6 +21,9 @@ namespace SOSPets.Domain.Models
         public User User { get; set; }
         public Address() { }
         public Address(AddressViewModelInput addressViewModelInput)
+            => SetValues(addressViewModelInput);
+
+        public void SetValues(AddressViewModelInput addressViewModelInput)
         {
             Street = addressViewModelInput.Street;
             PostalCode = addressViewModelInput.PostalCode;

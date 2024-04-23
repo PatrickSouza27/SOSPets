@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SOSPets.Data;
 using SOSPets.Domain.Models;
+using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
 
 
@@ -12,23 +13,31 @@ namespace SOSPets.Application.Controllers
     [Route("address")]
     public class AddressController : ControllerBase
     {
-        private readonly DataContextDatabase _dbcontext;
-        public AddressController(DataContextDatabase dbcontext)
-            => _dbcontext = dbcontext;
+        private readonly IUserService _userInstance;
+        public AddressController(IUserService userinstance)
+            => _userInstance = userinstance;
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-            => Ok(await _dbcontext.Address.AsNoTracking().ToListAsync());
+        [HttpGet("{uid}")]
+        public async Task<IActionResult> GetAddressByUID(string uid)
+            => Ok(await _userInstance.GetAddressByUID(uid));
 
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] AddressViewModelInput addressInput)
+        [HttpPut("{uid}")]
+        public async Task<IActionResult> UpdateAddress(string uid, [FromBody] AddressViewModelInput addressInput)
         {
-            _dbcontext.Address.Add(new Address(addressInput));
-            await _dbcontext.SaveChangesAsync();
-            return Created("Salvo com Sucesso!", addressInput);
+            try
+            {
+                await _userInstance.UpdateAddress(uid, addressInput);
+                return Ok("endereço atualizado com sucesso");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+            
 
-        
+
+
 
     }
 }
