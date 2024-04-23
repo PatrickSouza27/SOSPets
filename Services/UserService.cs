@@ -26,18 +26,19 @@ namespace SOSPets.Services
 
         public async Task DeleteUser(string uid)
         {
-            var user = await _dbcontext.Users.AsNoTracking().FirstOrDefaultAsync();
+            var user = await _dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(x=> x.UID.Equals(uid));
 
             if(user != null)
             {
                 _dbcontext.Users.Remove(user);
                 await _dbcontext.SaveChangesAsync();
+                return;
             }
 
             throw new ArgumentNullException("user not found");
 
         }
-        public async Task<bool> UpdateUser(string uid, EditUserViewModel userEdit)
+        public async Task UpdateUser(string uid, EditUserViewModel userEdit)
         {
             var user = await _dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
 
@@ -46,6 +47,7 @@ namespace SOSPets.Services
                 user.Edit(userEdit);
                 _dbcontext.Users.Update(user);
                 await _dbcontext.SaveChangesAsync();
+                return; 
             }
 
             throw new ArgumentNullException("user not found");
@@ -58,6 +60,7 @@ namespace SOSPets.Services
             {
                 user.SetAddress(new Address(userEdit));
                 await _dbcontext.SaveChangesAsync();
+                return;
             }
             throw new ArgumentNullException("user not found");
         }

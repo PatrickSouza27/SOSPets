@@ -6,7 +6,7 @@ namespace SOSPets.Services.Interface
     public interface IUserService
     {
         Task AddUserAndAddress(UserViewModelInput user);
-        Task<bool> UpdateUser(string uid, EditUserViewModel userEdit);
+        Task UpdateUser(string uid, EditUserViewModel userEdit);
         Task UpdateAddress(string uid, AddressViewModelInput userEdit);
         Task<User?> GetUserByUID(string uid);
         Task<Address?> GetAddressByUID(string uid);

@@ -30,9 +30,6 @@ namespace SOSPets.Application.Controllers
            return Ok(new ResultDefault<User?>(user));
 
         }
-            
-        
-
 
         [HttpPost]
         public async Task<IActionResult> AddNewUser([FromBody] UserViewModelInput userInput)
@@ -50,6 +47,42 @@ namespace SOSPets.Application.Controllers
             }
 
 
+        }
+
+        [HttpPut("{uid}")]
+        public async Task<IActionResult> UpdateUser(string uid,[FromBody] EditUserViewModel user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultDefault<User>(ModelState.ExtensionMessage()));
+
+            try
+            {
+                await _userInstance.UpdateUser(uid, user);
+                return Ok(new ResultDefault<object>("usuario atualizado com sucesso"));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{uid}")]
+        public async Task<IActionResult> DeleteUser(string uid)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultDefault<User>(ModelState.ExtensionMessage()));
+
+            try
+            {
+                await _userInstance.DeleteUser(uid);
+                return Ok(new ResultDefault<object>(new { message = "usuario excluido com sucesso" } ));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
