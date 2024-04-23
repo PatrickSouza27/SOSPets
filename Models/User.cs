@@ -14,7 +14,8 @@ namespace SOSPets.Domain.Models
         public string LastName { get; set; }
         public string UID { get; set; }
         public string Email { get; set; }
-        public Address Fk_Address { get; set; }
+        public int Fk_address { get; set; }
+        public Address Address { get; set; }
         public User() { }
 
         public User(UserViewModelInput user)
@@ -24,7 +25,7 @@ namespace SOSPets.Domain.Models
             UID = user.UID;
             Email = user.Email;
         }
-        public void SetAddress(Address address) => Fk_Address = address;
+        public void SetAddress(Address address) => Address = address;
         public void Edit(EditUserViewModel userEdit)
         {
             Name = userEdit.Name;

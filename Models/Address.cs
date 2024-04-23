@@ -2,6 +2,7 @@
 using SOSPets.ViewModel.Session;
 
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace SOSPets.Domain.Models
@@ -16,6 +17,8 @@ namespace SOSPets.Domain.Models
         public string Complement { get; set; }
         public string City { get; set; }
         public string Number { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
         public Address() { }
         public Address(AddressViewModelInput addressViewModelInput)
         {
