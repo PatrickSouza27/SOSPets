@@ -22,15 +22,17 @@ namespace SOSPets.Services
         }
 
         public async Task<User?> GetUserByUID(string uid)
-           => await _dbcontext.Users.Include(x=> x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+           => await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
 
-        public async Task DeleteUser(string uid)
+        public async Task DeleteUserAndAddress(string uid)
         {
-            var user = await _dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(x=> x.UID.Equals(uid));
-
+            var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x=> x.UID.Equals(uid));
+            
             if(user != null)
             {
+                var address = user.Address;              
                 _dbcontext.Users.Remove(user);
+                _dbcontext.Address.Remove(address);
                 await _dbcontext.SaveChangesAsync();
                 return;
             }
@@ -55,7 +57,7 @@ namespace SOSPets.Services
 
         public async Task UpdateAddress(string uid, AddressViewModelInput userEdit)
         {
-            var user = await _dbcontext.Users.Include(x=> x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+            var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
             if (user != null)
             {
                 user.SetAddress(new Address(userEdit));
@@ -67,10 +69,10 @@ namespace SOSPets.Services
 
         public async Task<Address?> GetAddressByUID(string uid)
         {
-            var userComplet = await _dbcontext.Users.Include(x => x.Fk_Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
+            var userComplet = await _dbcontext.Users.Include(x => x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
             
             if (userComplet is not null)
-                return userComplet.Fk_Address;
+                return userComplet.Address;
 
             throw new ArgumentNullException("user not found");
         }

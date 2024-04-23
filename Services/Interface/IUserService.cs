@@ -10,6 +10,6 @@ namespace SOSPets.Services.Interface
         Task UpdateAddress(string uid, AddressViewModelInput userEdit);
         Task<User?> GetUserByUID(string uid);
         Task<Address?> GetAddressByUID(string uid);
-        Task DeleteUser(string uid);
+        Task DeleteUserAndAddress(string uid);
     }
 }

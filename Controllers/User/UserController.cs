@@ -75,7 +75,7 @@ namespace SOSPets.Application.Controllers
 
             try
             {
-                await _userInstance.DeleteUser(uid);
+                await _userInstance.DeleteUserAndAddress(uid);
                 return Ok(new ResultDefault<object>(new { message = "usuario excluido com sucesso" } ));
 
             }
