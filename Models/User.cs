@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SOSPets.Domain.Models
@@ -16,6 +17,9 @@ namespace SOSPets.Domain.Models
         public string Email { get; set; }
         public int Fk_address { get; set; }
         public Address Address { get; set; }
+
+        [JsonIgnore]
+        public Profile Profile { get; set; }
         public User() { }
 
         public User(UserViewModelInput user)
