@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SOSPets.Data;
 using SOSPets.Domain.Models;
+using SOSPets.Models.Outputs;
+using SOSPets.Services;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
 
@@ -34,10 +38,39 @@ namespace SOSPets.Application.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("teste/{cep}")]
+        public async Task<IActionResult> GetLatLong(string cep)
+        {
+            var testing = new MapService();
+            try
+            {
+                var response = await testing.GetLocation(cep);
+                JObject objec = JObject.Parse(response);
+
+                JObject? location = objec["results"]?[0]?["geometry"]?["location"] as JObject;
+
+                GeolocationOutput LatLong;
+                if(location is not null)
+                {
+                    LatLong = new GeolocationOutput((double)location["lng"], (double)location["lng"]);
+                    return Ok(LatLong);
+                }
+
+
+
+                return Ok("teste");
+
+
+            } catch(Exception ex)
+            {
+                return BadRequest("error");
+            }
+
             
 
 
-
-
+            
+        }
     }
 }
