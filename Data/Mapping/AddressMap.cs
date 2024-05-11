@@ -42,7 +42,13 @@ namespace SOSPets.Data.Mapping
                 .IsRequired();
 
 
+            builder.Property(x => x.Latitude)
+                .HasColumnName("latitude")
+                .HasColumnType("double");
 
+            builder.Property(x => x.Longitude)
+                .HasColumnName("longitude")
+                .HasColumnType("double");
 
 
         }

@@ -17,6 +17,9 @@ namespace SOSPets.Domain.Models
         public string Complement { get; set; }
         public string City { get; set; }
         public string Number { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }   
+
         [JsonIgnore]
         public User User { get; set; }
         public Address() { }
@@ -33,6 +36,11 @@ namespace SOSPets.Domain.Models
             City = addressViewModelInput.City;
         }
         
+        public void SetGeoLocation(double  latitude, double longitude)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+        }
 
     }
 }
