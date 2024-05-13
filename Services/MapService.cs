@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json.Linq;
 using SOSPets.Domain.Models;
 using SOSPets.Models.Outputs;
+using SOSPets.Services.Interface;
 
 namespace SOSPets.Services
 {
-    public class MapService
+    public class MapService : IMapService
     {
         private readonly HttpClient _httpClient;
         public MapService()
@@ -29,9 +31,22 @@ namespace SOSPets.Services
             if(response.IsSuccessStatusCode)
                 return await response.Content.ReadAsStringAsync();
 
-            throw new ArgumentNullException("Cep Invalido");
+            throw new ArgumentNullException("CEP Incorreto");
 
+        }
 
+        public GeolocationOutput GetLatAndLong(string json)
+        {
+            JObject infoGeoComplet = JObject.Parse(json);
+
+            JObject? location = infoGeoComplet["results"]?[0]?["geometry"]?["location"] as JObject;
+
+            if(location is not null)
+            {
+                return new GeolocationOutput((double)location["lat"], (double)location["lng"]);
+            }
+
+            throw new ArgumentNullException("CEP Incorreto");
         }
     }
 }

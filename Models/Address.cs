@@ -1,4 +1,5 @@
 ﻿
+using SOSPets.Models.Outputs;
 using SOSPets.ViewModel.Session;
 
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,10 +37,10 @@ namespace SOSPets.Domain.Models
             City = addressViewModelInput.City;
         }
         
-        public void SetGeoLocation(double  latitude, double longitude)
+        public void SetGeoLocation(GeolocationOutput geo)
         {
-            Latitude = latitude;
-            Longitude = longitude;
+            Latitude = geo.Lat;
+            Longitude = geo.Long;
         }
 
     }

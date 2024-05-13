@@ -3,20 +3,34 @@ using SOSPets.Data;
 using SOSPets.Domain.Models;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
+using System.Runtime.ConstrainedExecution;
 
 namespace SOSPets.Services
 {
     public class UserService : IUserService
     {
         private readonly DataContextDatabase _dbcontext;
-        public UserService(DataContextDatabase dbcontext)
-            => _dbcontext = dbcontext;
+        private readonly IMapService _mapService;
+        public UserService(DataContextDatabase dbcontext, IMapService mapService)
+        {
+            _dbcontext = dbcontext;
+            _mapService = mapService;
+        }
+        private async Task<Address> SetInformationAddress(AddressViewModelInput addressInput)
+        {
+
+            var address = new Address(addressInput);
+            var responseJsonRequest = await _mapService.GetLocation(address.PostalCode);
+            address.SetGeoLocation(_mapService.GetLatAndLong(responseJsonRequest));
+            return address;
+
+        }
 
         public async Task AddUserAndAddress(UserViewModelInput user)
         {
             var userbank = new User(user);
-            var address = new Address(user.Address);
-            userbank.SetAddress(address);
+            var address = SetInformationAddress(user.Address);
+            userbank.SetAddress(await address);
             await _dbcontext.Users.AddAsync(userbank);
             await _dbcontext.SaveChangesAsync();
         }

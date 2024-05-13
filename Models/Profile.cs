@@ -20,11 +20,10 @@ namespace SOSPets.Domain.Models
 
         public Profile() { }
 
-        public Profile(int id, User user, DateTime dateCreated, int quantityPost, string description, string urlPhoto)
+        public Profile(User user, string description, string urlPhoto)
         {
-            Id = id;
             User = user;
-            DateCreated = dateCreated;
+            DateCreated = DateTime.Now;
             Description = description;
             UrlPhoto = urlPhoto;
         }

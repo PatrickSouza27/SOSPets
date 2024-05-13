@@ -46,20 +46,7 @@ namespace SOSPets.Application.Controllers
             try
             {
                 var response = await testing.GetLocation(cep);
-                JObject objec = JObject.Parse(response);
-
-                JObject? location = objec["results"]?[0]?["geometry"]?["location"] as JObject;
-
-                GeolocationOutput LatLong;
-                if(location is not null)
-                {
-                    LatLong = new GeolocationOutput((double)location["lng"], (double)location["lng"]);
-                    return Ok(LatLong);
-                }
-
-
-
-                return Ok("teste");
+                return Ok(testing.GetLatAndLong(response));
 
 
             } catch(Exception ex)
