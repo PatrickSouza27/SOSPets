@@ -1,5 +1,6 @@
 ﻿using SOSPets.Domain.Models;
 using SOSPets.ViewModel.Session;
+using SOSPets.ViewModel.Session.Edit;
 
 namespace SOSPets.Services.Interface
 {

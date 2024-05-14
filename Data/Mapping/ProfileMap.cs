@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using SOSPets.Domain.Models;
 
 namespace SOSPets.Data.Mapping
@@ -25,20 +24,18 @@ namespace SOSPets.Data.Mapping
 
 
             builder.Property(x => x.Description)
-                .IsRequired()
                 .HasColumnName("description")
                 .HasColumnType("nvarchar")
                 .HasMaxLength(160);
 
             builder.Property(x => x.UrlPhoto)
-                .IsRequired()
                 .HasColumnName("urlPhoto")
                 .HasColumnType("nvarchar")
                 .HasMaxLength(260);
 
             builder.HasOne(u => u.User)
                 .WithOne(x=> x.Profile)
-                .HasForeignKey<Profile>(u => u.Fk_User)
+                .HasForeignKey<Profile>(u => u.Fk_user)
                 .OnDelete(DeleteBehavior.Cascade);
 
         }

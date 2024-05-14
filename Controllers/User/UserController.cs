@@ -6,6 +6,7 @@ using SOSPets.Domain.ViewModel;
 using SOSPets.Extensions;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
+using SOSPets.ViewModel.Session.Edit;
 
 
 namespace SOSPets.Application.Controllers

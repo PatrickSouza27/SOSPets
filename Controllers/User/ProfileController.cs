@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
+using SOSPets.ViewModel.Session.Edit;
 
 namespace SOSPets.Controllers.User
 {
@@ -8,17 +9,43 @@ namespace SOSPets.Controllers.User
     [Route("profile")]
     public class ProfileController : ControllerBase
     {
-        private readonly IS3Service _s3Service;
+        private readonly IProfileService _profileService;
 
-        public ProfileController(IS3Service s3Service)
+        public ProfileController(IProfileService profileService)
         {
-            _s3Service = s3Service;
+            _profileService = profileService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> TestingImage([FromBody] ProfileViewModelInput profileInput)
+        [HttpGet("{uid}")]
+        public async Task<IActionResult> GetProfile(string uid)
         {
-            return Ok(await _s3Service.SaveImageAsync(profileInput.Base64Image, "profile"));
+            return Ok(await _profileService.GetProfileAsync(uid));
+        }
+
+        [HttpPost("{uid}")]
+        public async Task<IActionResult> AddProfile(string uid)
+        {
+            try
+            {
+                await _profileService.AddProfileAsync(uid);
+                return Ok("Adicionado");
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{uid}")]
+        public async Task<IActionResult> UpdateProfile(string uid, [FromBody] EditProfileViewModel profileInput)
+        {
+            try
+            {               
+                return Ok(await _profileService.UpdateProfileAsync(profileInput, uid));
+
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

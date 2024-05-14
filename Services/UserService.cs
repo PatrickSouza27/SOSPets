@@ -3,6 +3,7 @@ using SOSPets.Data;
 using SOSPets.Domain.Models;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
+using SOSPets.ViewModel.Session.Edit;
 using System.Runtime.ConstrainedExecution;
 
 namespace SOSPets.Services

@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContextDatabase>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IMapService, MapService>();
-
+builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<IS3Service>(_ => new S3Service(RegionEndpoint.USEast1));
 
 builder.Services.AddControllers();

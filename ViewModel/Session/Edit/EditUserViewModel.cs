@@ -1,4 +1,4 @@
-﻿namespace SOSPets.ViewModel.Session
+﻿namespace SOSPets.ViewModel.Session.Edit
 {
     public class EditUserViewModel
     {

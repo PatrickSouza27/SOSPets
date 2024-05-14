@@ -1,4 +1,5 @@
 ﻿using SOSPets.ViewModel.Session;
+using SOSPets.ViewModel.Session.Edit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
