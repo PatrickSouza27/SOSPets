@@ -18,7 +18,7 @@ namespace SOSPets.Services
         }
             
         public async Task<Profile?> GetProfileAsync(string uid)
-            => await _dbcontext.Profiles.Include(x => x.User).Include(x => x.User.Address).Where(x => x.User.UID == uid).FirstOrDefaultAsync();
+            => await _dbcontext.Profiles.AsNoTracking().Include(x => x.User).Include(x => x.User.Address).FirstOrDefaultAsync(x => x.User.UID == uid);
         
         public async Task AddProfileAsync(string uid)
         {

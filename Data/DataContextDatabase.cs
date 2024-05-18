@@ -8,7 +8,8 @@ namespace SOSPets.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<Profile> Profiles { get; set; } 
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<ProfilePet> ProfilePets { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,6 +20,7 @@ namespace SOSPets.Data
             modelBuilder.ApplyConfiguration(new AddressMap());
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new ProfileMap());
+            modelBuilder.ApplyConfiguration(new ProfilePetMap());
         }
 
     }
