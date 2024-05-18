@@ -1,5 +1,3 @@
-
-
 using Amazon;
 using SOSPets.Data;
 using SOSPets.Services;
