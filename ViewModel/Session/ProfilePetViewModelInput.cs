@@ -18,6 +18,8 @@ namespace SOSPets.ViewModel.Session
         [JsonProperty("stage")]
         public StageLifeEnum StageLife { get; set; }
 
+        //public PhotosProfileViewModelInput? Images { get; set; }
+
         public ProfilePetViewModelInput() { }
         public void ReplaceBase64ForUrl(string url)
             => Image = url;

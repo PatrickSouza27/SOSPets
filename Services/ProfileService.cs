@@ -16,10 +16,14 @@ namespace SOSPets.Services
             _dbcontext = dbcontext;
             _s3Service = _serviceS3;
         }
-            
+
         public async Task<Profile?> GetProfileAsync(string uid)
-            => await _dbcontext.Profiles.AsNoTracking().Include(x => x.User).Include(x => x.User.Address).FirstOrDefaultAsync(x => x.User.UID == uid);
-        
+            => await _dbcontext.Profiles.AsNoTracking()
+                                        .Include(x => x.ProfilesPet)
+                                        .Include(x => x.User)
+                                        .Include(x => x.User.Address)
+                                        .FirstOrDefaultAsync(x => x.User.UID == uid);
+
         public async Task AddProfileAsync(string uid)
         {
             var user = await _dbcontext.Users.FirstOrDefaultAsync(x => x.UID == uid);
@@ -37,7 +41,7 @@ namespace SOSPets.Services
         {
             var profile = await _dbcontext.Profiles
                                 .Include(x => x.User)
-                                .Include(x=> x.User.Address)
+                                .Include(x => x.User.Address)
                                 .FirstOrDefaultAsync(x => x.User != null && x.User.UID == uid);
 
 
@@ -49,13 +53,13 @@ namespace SOSPets.Services
             editProfile.ReplaceBase64ForUrl(imageUrl);
 
             profile.UpdateRegisterProfile(editProfile);
-            
+
             _dbcontext.Profiles.Update(profile);
 
             await _dbcontext.SaveChangesAsync();
 
             return profile;
-            
+
         }
     }
 }
