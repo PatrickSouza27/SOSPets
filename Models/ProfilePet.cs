@@ -28,7 +28,7 @@ namespace SOSPets.Domain.Models
         public int Fk_profile { get; set; }
         [JsonIgnore]
         public Profile ProfileUser { get; set; }
-        //public IList<PhotoProfilePet>? PhotosProfilePet { get; set; }
+        public IList<PhotoProfilePet>? PhotosProfilePet { get; set; }
 
         public ProfilePet() {}
         public ProfilePet(Profile profileUser, ProfilePetViewModelInput profileInput)

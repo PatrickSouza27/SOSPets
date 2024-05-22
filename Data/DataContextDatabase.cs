@@ -10,7 +10,7 @@ namespace SOSPets.Data
         public DbSet<Address> Address { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<ProfilePet> ProfilePets { get; set; }
-        //public DbSet<PhotoProfileMap> PhotosProfile { get; set; }
+        public DbSet<PhotoProfilePet> PhotosProfile { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,7 +22,7 @@ namespace SOSPets.Data
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new ProfileMap());
             modelBuilder.ApplyConfiguration(new ProfilePetMap());
-            //modelBuilder.ApplyConfiguration(new PhotoProfileMap());
+            modelBuilder.ApplyConfiguration(new PhotoProfileMap());
         }
 
     }

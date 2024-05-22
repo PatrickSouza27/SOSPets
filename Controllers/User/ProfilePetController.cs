@@ -28,5 +28,22 @@ namespace SOSPets.Controllers.User
             }
         }
 
+        [HttpPost("teste/{uid}")]
+        public async Task<IActionResult> AddImagensTesting(string uid, [FromBody] ProfilePetViewModelInput profilePetInput)
+        {
+            try
+            {
+
+                await _profilePetService.AddProfilePetAsync(uid, profilePetInput);
+
+                return Ok("Foto Adicionado com sucesso");
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

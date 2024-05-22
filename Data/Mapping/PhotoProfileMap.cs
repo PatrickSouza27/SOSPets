@@ -34,10 +34,10 @@ namespace SOSPets.Data.Mapping
                 .HasMaxLength(260);
 
 
-            //builder.HasOne(u => u.ProfilePet)
-            //    .WithMany(x => x.PhotosProfilePet)
-            //    .HasForeignKey(u => u.ProfilePet)
-            //    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(u => u.ProfilePet)
+                .WithMany(x => x.PhotosProfilePet)
+                .HasForeignKey(u => u.Fk_profilepet)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
