@@ -20,23 +20,30 @@ namespace SOSPets.Services
             var profileUser = await _dbcontext.Profiles
                                               .FirstOrDefaultAsync(x => x.User.UID == uid);
 
-            if (profileUser is not null)
+            if (profileUser is null)
+                throw new NullReferenceException("profile user is null - PSX03945");
+
+
+
+
+            var imageUrl = await _s3Service.SaveImageAsync(profileInput.Image, "pets");
+
+            profileInput.ReplaceBase64ForUrl(imageUrl);
+
+            var profilePet = new ProfilePet(profileUser, profileInput);
+
+            if (profileInput.Images != null)
             {
-                
-                var imageUrl = await _s3Service.SaveImageAsync(profileInput.Image, "pets");
-
-                profileInput.ReplaceBase64ForUrl(imageUrl);
-
-                var profilePet = new ProfilePet(profileUser, profileInput);
-
-                await _dbcontext.ProfilePets.AddAsync(profilePet);
-                await _dbcontext.SaveChangesAsync();
-
-                return;
+                profileInput.Images.ForEach(x => x.ReplaceBase64ForUrl(x.Image));
+                profilePet.AddPhotosList(profileInput.Images);
             }
+            await _dbcontext.ProfilePets.AddAsync(profilePet);
+            await _dbcontext.SaveChangesAsync();
 
+
+           
             
-            throw new NullReferenceException("profile user is null - PSX03945");
+            
 
         }
 

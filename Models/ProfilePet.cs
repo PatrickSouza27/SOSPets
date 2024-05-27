@@ -42,5 +42,16 @@ namespace SOSPets.Domain.Models
             StageLife = profileInput.StageLife;
             DateCreatedProfile = DateTime.Now;
         }
+
+        public void AddPhotosList(List<PhotosProfileViewModelInput> photos)
+        {
+            var photosList = new List<PhotoProfilePet>();
+            foreach (var item in photos)
+            {
+                photosList.Add(new PhotoProfilePet(item.Image, this));
+            }
+            PhotosProfilePet = new List<PhotoProfilePet>();
+            PhotosProfilePet = photosList;
+        }
     }
 }
