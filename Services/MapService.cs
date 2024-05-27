@@ -20,7 +20,7 @@ namespace SOSPets.Services
         {
             var queryParams = new Dictionary<string, string>
             {
-                { "key", "AIzaSyDHv5TcmpnA3xi12l9p-ol1GD-URciOaqk" },
+                { "key", "AIzaSyBkTkicLsrUv7-4JBb_RpErZbB5JNX0-uU" },
                 { "address", cep }
             };
 
@@ -39,7 +39,7 @@ namespace SOSPets.Services
         {
             JObject infoGeoComplet = JObject.Parse(json);
 
-            JObject? location = infoGeoComplet["results"]?[0]?["geometry"]?["location"] as JObject;
+            JObject? location = infoGeoComplet["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject;
 
             if(location is not null)
             {
