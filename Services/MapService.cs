@@ -41,6 +41,7 @@ namespace SOSPets.Services
 
             JObject? location = infoGeoComplet["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject;
 
+
             if(location is not null)
             {
                 return new GeolocationOutput((double)location["lat"], (double)location["lng"]);
