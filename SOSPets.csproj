@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Inputs\" />
+    <Compile Remove="Models\Inputs\**" />
+    <Content Remove="Models\Inputs\**" />
+    <EmbeddedResource Remove="Models\Inputs\**" />
+    <None Remove="Models\Inputs\**" />
   </ItemGroup>
 
   <ItemGroup>

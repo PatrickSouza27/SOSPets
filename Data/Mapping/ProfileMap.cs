@@ -38,6 +38,7 @@ namespace SOSPets.Data.Mapping
                 .HasForeignKey<Profile>(u => u.Fk_user)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
         }
     }
 }

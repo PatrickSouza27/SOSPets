@@ -60,6 +60,11 @@ namespace SOSPets.Data.Mapping
                 .WithMany(x => x.ProfilesPet)
                 .HasForeignKey(u => u.Fk_profile)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.HasMany(x=> x.PhotosProfilePet)
+                .WithOne(x=> x.ProfilePet)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

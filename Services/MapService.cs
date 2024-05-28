@@ -39,15 +39,16 @@ namespace SOSPets.Services
         {
             JObject infoGeoComplet = JObject.Parse(json);
 
-            JObject? location = infoGeoComplet["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject;
+            JObject? location = infoGeoComplet["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject ?? throw new NullReferenceException("CEP INCORRETO");
 
 
-            if(location is not null)
-            {
-                return new GeolocationOutput((double)location["lat"], (double)location["lng"]);
-            }
+            if(double.TryParse((string?)location["lat"], out double lat) && double.TryParse(((string?)location["lng"]), out double lng))
+                return new GeolocationOutput(lat, lng);
+
 
             throw new ArgumentNullException("CEP Incorreto");
+
+
         }
     }
 }

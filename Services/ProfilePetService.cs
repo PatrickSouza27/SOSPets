@@ -23,9 +23,6 @@ namespace SOSPets.Services
             if (profileUser is null)
                 throw new NullReferenceException("profile user is null - PSX03945");
 
-
-
-
             var imageUrl = await _s3Service.SaveImageAsync(profileInput.Image, "pets");
 
             profileInput.ReplaceBase64ForUrl(imageUrl);
@@ -34,16 +31,15 @@ namespace SOSPets.Services
 
             if (profileInput.Images != null)
             {
-                profileInput.Images.ForEach(x => x.ReplaceBase64ForUrl(x.Image));
+                foreach(var image in profileInput.Images){
+                    var imagesUrl = await _s3Service.SaveImageAsync(image.Image, "pets");
+                    image.ReplaceBase64ForUrl(imagesUrl);
+                }
                 profilePet.AddPhotosList(profileInput.Images);
             }
             await _dbcontext.ProfilePets.AddAsync(profilePet);
             await _dbcontext.SaveChangesAsync();
-
-
-           
-            
-            
+         
 
         }
 
