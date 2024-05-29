@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SOSPets.Data;
-using SOSPets.Domain.Models;
-using SOSPets.Models.Outputs;
+﻿using Microsoft.AspNetCore.Mvc;
 using SOSPets.Services;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
 
-
-namespace SOSPets.Application.Controllers
+namespace SOSPets.Controllers.User
 {
     [ApiController]
     [Route("address")]

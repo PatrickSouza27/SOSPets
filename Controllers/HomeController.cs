@@ -16,9 +16,9 @@ namespace SOSPets.Controllers
         }
 
         [HttpGet("{uid}")]
-        public async Task<IActionResult> GetProfilesPetRegion(string uid, [FromQuery] int qtdtake, [FromQuery] int qtdskip)
+        public async Task<IActionResult> GetProfilesPetRegion(string uid, [FromQuery] int page)
         {
-            return Ok(await _homeService.GetRegistersHome(uid, qtdtake, qtdskip));
+            return Ok(await _homeService.GetRegistersHome(uid, page));
         } 
     }
 }

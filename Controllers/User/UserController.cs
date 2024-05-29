@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SOSPets.Data;
-using SOSPets.Domain.Models;
 using SOSPets.Domain.ViewModel;
 using SOSPets.Extensions;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
 using SOSPets.ViewModel.Session.Edit;
 
-
-namespace SOSPets.Application.Controllers
+namespace SOSPets.Controllers.User
 {
     [ApiController]
     [Route("user")]
@@ -26,9 +22,9 @@ namespace SOSPets.Application.Controllers
            var user = await _userInstance.GetUserByUID(uid);
 
            if (user == null)
-                return NotFound(new ResultDefault<User>("Usuario Não Encontrado"));
+                return NotFound(new ResultDefault<Domain.Models.User>("Usuario Não Encontrado"));
 
-           return Ok(new ResultDefault<User?>(user));
+           return Ok(new ResultDefault<Domain.Models.User?>(user));
 
         }
 
@@ -36,7 +32,7 @@ namespace SOSPets.Application.Controllers
         public async Task<IActionResult> AddNewUser([FromBody] UserViewModelInput userInput)
         {
             if (!ModelState.IsValid) 
-                return BadRequest(new ResultDefault<User>(ModelState.ExtensionMessage()));
+                return BadRequest(new ResultDefault<Domain.Models.User>(ModelState.ExtensionMessage()));
             try
             {
                 await _userInstance.AddUserAndAddress(userInput);
@@ -54,7 +50,7 @@ namespace SOSPets.Application.Controllers
         public async Task<IActionResult> UpdateUser(string uid,[FromBody] EditUserViewModel user)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new ResultDefault<User>(ModelState.ExtensionMessage()));
+                return BadRequest(new ResultDefault<Domain.Models.User>(ModelState.ExtensionMessage()));
 
             try
             {
@@ -72,7 +68,7 @@ namespace SOSPets.Application.Controllers
         public async Task<IActionResult> DeleteUser(string uid)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new ResultDefault<User>(ModelState.ExtensionMessage()));
+                return BadRequest(new ResultDefault<Domain.Models.User>(ModelState.ExtensionMessage()));
 
             try
             {

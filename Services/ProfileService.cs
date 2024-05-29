@@ -11,10 +11,10 @@ namespace SOSPets.Services
     {
         private readonly DataContextDatabase _dbcontext;
         private readonly IS3Service _s3Service;
-        public ProfileService(DataContextDatabase dbcontext, IS3Service _serviceS3)
+        public ProfileService(DataContextDatabase dbcontext, IS3Service serviceS3)
         {
             _dbcontext = dbcontext;
-            _s3Service = _serviceS3;
+            _s3Service = serviceS3;
         }
 
         public async Task<Profile?> GetProfileAsync(string uid)
@@ -42,7 +42,7 @@ namespace SOSPets.Services
             var profile = await _dbcontext.Profiles
                                 .Include(x => x.User)
                                 .Include(x => x.User.Address)
-                                .FirstOrDefaultAsync(x => x.User != null && x.User.UID == uid);
+                                .FirstOrDefaultAsync(x => x.User.UID == uid);
 
 
             if (profile == null)

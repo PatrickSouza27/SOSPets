@@ -8,14 +8,11 @@ namespace SOSPets.Services
 {
     public class MapService : IMapService
     {
-        private readonly HttpClient _httpClient;
-        public MapService()
+        private readonly HttpClient _httpClient = new()
         {
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new("https://maps.googleapis.com/maps/api/geocode/json")
-            };
-        }
+            BaseAddress = new Uri("https://maps.googleapis.com/maps/api/geocode/json")
+        };
+
         public async Task<string> GetLocation(string cep)
         {
             var queryParams = new Dictionary<string, string>
@@ -25,28 +22,26 @@ namespace SOSPets.Services
             };
 
 
-            var uri = QueryHelpers.AddQueryString("", queryParams);
+            var uri = QueryHelpers.AddQueryString("", queryParams!);
             var response = await _httpClient.GetAsync(uri);
 
             if(response.IsSuccessStatusCode)
                 return await response.Content.ReadAsStringAsync();
 
-            throw new ArgumentNullException("CEP Incorreto");
+            throw new ArgumentNullException(nameof(cep));
 
         }
 
         public GeolocationOutput GetLatAndLong(string json)
         {
-            JObject infoGeoComplet = JObject.Parse(json);
+            var infoGeoComplete = JObject.Parse(json);
 
-            JObject? location = infoGeoComplet["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject ?? throw new NullReferenceException("CEP INCORRETO");
-
-
-            if(double.TryParse((string?)location["lat"], out double lat) && double.TryParse(((string?)location["lng"]), out double lng))
+            var location = infoGeoComplete["results"]?.FirstOrDefault()?["geometry"]?["location"] as JObject ?? throw new NullReferenceException("CEP INCORRETO");
+            
+            if(double.TryParse((string?)location["lat"], out var lat) && double.TryParse(((string?)location["lng"]), out var lng))
                 return new GeolocationOutput(lat, lng);
-
-
-            throw new ArgumentNullException("CEP Incorreto");
+            
+            throw new ArgumentNullException(nameof(json));
 
 
         }

@@ -4,6 +4,6 @@ namespace SOSPets.Services.Interface
 {
     public interface IHomeService
     {
-        Task<List<HomeOutput>> GetRegistersHome(string uid, int qtdtake, int qtdskip);
+        Task<List<HomeOutput>> GetRegistersHome(string uid, int page);
     }
 }

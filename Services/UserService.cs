@@ -12,10 +12,12 @@ namespace SOSPets.Services
     {
         private readonly DataContextDatabase _dbcontext;
         private readonly IMapService _mapService;
-        public UserService(DataContextDatabase dbcontext, IMapService mapService)
+        private readonly IProfileService _profileService;
+        public UserService(DataContextDatabase dbInstance, IMapService mapService, IProfileService profileService)
         {
-            _dbcontext = dbcontext;
+            _dbcontext = dbInstance;
             _mapService = mapService;
+            _profileService = profileService;
         }
         private async Task<Address> SetInformationAddress(AddressViewModelInput addressInput)
         {
@@ -23,36 +25,34 @@ namespace SOSPets.Services
             var address = new Address(addressInput);
             var responseJsonRequest = await _mapService.GetLocation(address.PostalCode);
             address.SetGeoLocation(_mapService.GetLatAndLong(responseJsonRequest));
+
             return address;
 
         }
 
         public async Task AddUserAndAddress(UserViewModelInput user)
         {
-            var userbank = new User(user);
+            var username = new User(user);
             var address = SetInformationAddress(user.Address);
-            userbank.SetAddress(await address);
-            await _dbcontext.Users.AddAsync(userbank);
+            username.SetAddress(await address);
+            await _dbcontext.Users.AddAsync(username);
+            await _profileService.AddProfileAsync(user.UID);
             await _dbcontext.SaveChangesAsync();
         }
 
         public async Task<User?> GetUserByUID(string uid)
            => await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
-
+        
         public async Task DeleteUserAndAddress(string uid)
         {
             var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x=> x.UID.Equals(uid));
-            
-            if(user != null)
-            {
-                var address = user.Address;              
-                _dbcontext.Users.Remove(user);
-                _dbcontext.Address.Remove(address);
-                await _dbcontext.SaveChangesAsync();
-                return;
-            }
 
-            throw new ArgumentNullException("user not found");
+            if (user == null) throw new ArgumentNullException("user not found");
+            var address = user.Address;              
+            _dbcontext.Users.Remove(user);
+            _dbcontext.Address.Remove(address);
+            await _dbcontext.SaveChangesAsync();
+            return;
 
         }
         public async Task UpdateUser(string uid, EditUserViewModel userEdit)
