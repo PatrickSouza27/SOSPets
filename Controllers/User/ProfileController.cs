@@ -22,19 +22,6 @@ namespace SOSPets.Controllers.User
             return Ok(await _profileService.GetProfileAsync(uid));
         }
 
-        [HttpPost("{uid}")]
-        public async Task<IActionResult> AddProfile(string uid)
-        {
-            try
-            {
-                await _profileService.AddProfileAsync(uid);
-                return Ok("Adicionado");
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPut("{uid}")]
         public async Task<IActionResult> UpdateProfile(string uid, [FromBody] EditProfileViewModel profileInput)
         {

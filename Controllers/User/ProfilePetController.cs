@@ -13,6 +13,21 @@ namespace SOSPets.Controllers.User
 
         public ProfilePetController(IProfilePetService profilePetService) => _profilePetService = profilePetService; 
         
+        [HttpPost("{uid}")]
+        public async Task<IActionResult> AddProfilePet(string uid, [FromBody] ProfilePetViewModelInput profilePetInput)
+        {
+            try
+            {
+                await _profilePetService.AddProfilePetAsync(uid, profilePetInput);
+
+                return Ok("profile pet adicionado");
+
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetProfilePetById([FromQuery] int id)
         {
