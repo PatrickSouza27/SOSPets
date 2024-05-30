@@ -36,7 +36,7 @@ namespace SOSPets.Controllers.User
             try
             {
                 await _userInstance.AddUserAndAddress(userInput);
-                return Created("Usuario Criado com sucesso!", userInput);
+                return Created("User created", new ResultDefault<UserViewModelInput>(userInput));
             }
             catch(Exception ex) 
             {
@@ -55,7 +55,7 @@ namespace SOSPets.Controllers.User
             try
             {
                 await _userInstance.UpdateUser(uid, user);
-                return Ok(new ResultDefault<object>("usuario atualizado com sucesso"));
+                return Ok(new ResultDefault<object>("User Updated!"));
 
             }
             catch(Exception ex)
@@ -73,7 +73,7 @@ namespace SOSPets.Controllers.User
             try
             {
                 await _userInstance.DeleteUserAndAddress(uid);
-                return Ok(new ResultDefault<object>(new { message = "usuario excluido com sucesso" } ));
+                return Ok(new ResultDefault<object>(new { message = "User Deleted" } ));
 
             }
             catch (Exception ex)

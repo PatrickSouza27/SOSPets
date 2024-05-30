@@ -8,7 +8,7 @@ namespace SOSPets.Domain.Models.Enums
 {
     public enum TypePetEnum
     {
-        dog,
-        cat
+        dog = 0,
+        cat = 1
     }
 }

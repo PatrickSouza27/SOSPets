@@ -8,8 +8,8 @@ namespace SOSPets.Domain.Models.Enums
 {
     public enum SizePetEnum
     {
-        small, 
-        medium,
-        big
+        small = 0, 
+        medium = 1,
+        big = 2
     }
 }

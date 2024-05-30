@@ -36,8 +36,8 @@ namespace SOSPets.Services
             var address = SetInformationAddress(user.Address);
             username.SetAddress(await address);
             await _dbcontext.Users.AddAsync(username);
-            await _profileService.AddProfileAsync(user.UID);
             await _dbcontext.SaveChangesAsync();
+            await _profileService.AddProfileAsync(user.UID);
         }
 
         public async Task<User?> GetUserByUID(string uid)
@@ -59,29 +59,24 @@ namespace SOSPets.Services
         {
             var user = await _dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
 
-            if (user != null)
-            {
-                user.Edit(userEdit);
-                _dbcontext.Users.Update(user);
-                await _dbcontext.SaveChangesAsync();
-                return; 
-            }
+            if (user == null) throw new ArgumentNullException("user not found");
+            
+            user.Edit(userEdit);
+            _dbcontext.Users.Update(user);
+            await _dbcontext.SaveChangesAsync();
+            return;
 
-            throw new ArgumentNullException("user not found");
         }
 
         public async Task UpdateAddress(string uid, AddressViewModelInput userEdit)
         {
             var user = await _dbcontext.Users.Include(x=> x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.UID.Equals(uid));
-            if (user != null)
-            {
-
-                user.Address.SetValues(userEdit);
-                _dbcontext.Users.Update(user);
-                await _dbcontext.SaveChangesAsync();
-                return;
-            }
-            throw new ArgumentNullException("user not found");
+            if (user == null) throw new ArgumentNullException("user not found");
+            
+            user.Address.SetValues(userEdit);
+            _dbcontext.Users.Update(user);
+            await _dbcontext.SaveChangesAsync();
+            return;
         }
 
         public async Task<Address?> GetAddressByUID(string uid)

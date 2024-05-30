@@ -13,33 +13,13 @@ namespace SOSPets.Controllers.User
 
         public ProfilePetController(IProfilePetService profilePetService) => _profilePetService = profilePetService; 
         
-        [HttpPost("{uid}")]
-        public async Task<IActionResult> AddProfilePet(string uid, [FromBody] ProfilePetViewModelInput profilePetInput)
+        [HttpGet]
+        public async Task<IActionResult> GetProfilePetById([FromQuery] int id)
         {
             try
             {
-                await _profilePetService.AddProfilePetAsync(uid, profilePetInput);
-
-                return Ok("profile pet adicionado");
-
+                return Ok(await _profilePetService.GetProfilePetByIdAsync(id));
             }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost("teste/{uid}")]
-        public async Task<IActionResult> AddImagensTesting(string uid, [FromBody] ProfilePetViewModelInput profilePetInput)
-        {
-            try
-            {
-
-                await _profilePetService.AddProfilePetAsync(uid, profilePetInput);
-
-                return Ok("Foto Adicionado com sucesso");
-
-            }
-            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

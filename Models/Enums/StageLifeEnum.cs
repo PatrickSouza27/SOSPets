@@ -8,9 +8,9 @@ namespace SOSPets.Domain.Models.Enums
 {
     public enum StageLifeEnum
     {
-        newborn, 
-        puppy,
-        adult,
-        old
+        newborn = 0, 
+        puppy = 1,
+        adult = 2,
+        old = 3
     }
 }

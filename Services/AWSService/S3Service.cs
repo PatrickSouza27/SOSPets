@@ -12,14 +12,17 @@ namespace SOSPets.Services.AWSService
     {
         private readonly AmazonS3Client _amazonS3Config;
         private readonly string _bucketService = "petsos";
+        private readonly string _keyAccess = "AKIA3FLDZHDSWC6RCDBH";
+        private readonly string _secretKey = "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";
         public S3Service(RegionEndpoint regionService)
         {
             var config = new AmazonS3Config
             {
                 RegionEndpoint = regionService
             };
-
-            _amazonS3Config = new AmazonS3Client(config);
+            var credentials = new Amazon.Runtime.BasicAWSCredentials(_keyAccess, _secretKey);
+            _amazonS3Config = new AmazonS3Client(credentials, config);
+            
         }
         private async Task UploadFileAsync(string bucketName, byte[] image64, string fileName)
         {
