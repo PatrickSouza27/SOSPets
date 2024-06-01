@@ -8,5 +8,7 @@ namespace SOSPets.Services.Interface
     {
          Task AddProfilePetAsync(string uid, ProfilePetViewModelInput profileInput);
          Task<ProfilePetByIdOutput> GetProfilePetByIdAsync(int id);
+         Task DeleteProfilePetAsync(int id);
+         Task<List<AddressGeoOutput>?> GetGeoAddressPetsAsync(string uid);
     }
 }

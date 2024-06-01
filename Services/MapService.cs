@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json.Linq;
 using SOSPets.Domain.Models;
+using SOSPets.Models;
 using SOSPets.Models.Outputs;
 using SOSPets.Services.Interface;
 
@@ -43,7 +44,7 @@ namespace SOSPets.Services
             
             throw new ArgumentNullException(nameof(json));
 
-
         }
+
     }
 }

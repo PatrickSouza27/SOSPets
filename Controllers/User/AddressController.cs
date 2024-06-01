@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SOSPets.Services;
 using SOSPets.Services.Interface;
 using SOSPets.ViewModel.Session;
 
@@ -10,11 +9,11 @@ namespace SOSPets.Controllers.User
     public class AddressController : ControllerBase
     {
         private readonly IUserService _userInstance;
-        public AddressController(IUserService userinstance)
-            => _userInstance = userinstance;
+        public AddressController(IUserService instance)
+            => _userInstance = instance;
 
         [HttpGet("{uid}")]
-        public async Task<IActionResult> GetAddressByUID(string uid)
+        public async Task<IActionResult> GetAddressByUid(string uid)
             => Ok(await _userInstance.GetAddressByUID(uid));
 
         [HttpPut("{uid}")]
@@ -23,7 +22,7 @@ namespace SOSPets.Controllers.User
             try
             {
                 await _userInstance.UpdateAddress(uid, addressInput);
-                return Ok("endereço atualizado com sucesso");
+                return Ok("Address Updated!");
             }
             catch(Exception ex)
             {
@@ -31,25 +30,5 @@ namespace SOSPets.Controllers.User
             }
         }
 
-        [HttpGet("teste/{cep}")]
-        public async Task<IActionResult> GetLatLong(string cep)
-        {
-            var testing = new MapService();
-            try
-            {
-                var response = await testing.GetLocation(cep);
-                return Ok(testing.GetLatAndLong(response));
-
-
-            } catch(Exception ex)
-            {
-                return BadRequest("error");
-            }
-
-            
-
-
-            
-        }
     }
 }

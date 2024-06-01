@@ -16,6 +16,19 @@ namespace SOSPets.Services
             _dbcontext = instanceDb;
             _s3Service = serviceS3;
         }
+        
+        private async Task<List<ProfilePet>> GetProfileUser()
+        {
+            var profilePet =  await _dbcontext.ProfilePets.Include(x => x.ProfileUser)
+                .Include(x => x.ProfileUser.User)
+                .Include(x=> x.ProfileUser.User.Address)
+                .Include(x => x.PhotosProfilePet).ToListAsync();
+
+            if(profilePet is null)
+                throw new ArgumentNullException(nameof(profilePet));
+
+            return profilePet;
+        }
         public async Task AddProfilePetAsync(string uid, ProfilePetViewModelInput profileInput)
         {
             var profileUser = await _dbcontext.Profiles
@@ -46,17 +59,22 @@ namespace SOSPets.Services
          
 
         }
-
+        
+        public async Task<List<AddressGeoOutput>?> GetGeoAddressPetsAsync(string uid)
+        {
+            var profilePet = await GetProfileUser();
+            var profilePetList = profilePet.Select(x=> x.ProfileUser.User).DistinctBy(x=> x.UID).ToList();
+            
+            var addressList = profilePetList.Select(x=> new AddressGeoOutput(x.UID, x.Address.Latitude, x.Address.Longitude)).ToList();
+            
+            return addressList;
+        }
+        
         public async Task<ProfilePetByIdOutput> GetProfilePetByIdAsync(int id)
         {
-            var profilePet = await _dbcontext.ProfilePets.Include(x=> x.ProfileUser)
-                                                          .Include(x=> x.ProfileUser.User)
-                                                          .Include(x=> x.PhotosProfilePet)
-                                                          .FirstOrDefaultAsync(x => x.Id == id);
-            
-            
-            if(profilePet is null)
-                throw new ArgumentNullException(nameof(profilePet));
+
+            var profilePetList = await GetProfileUser();
+            var profilePet = profilePetList.FirstOrDefault(x=> x.Id == id) ?? throw new ArgumentNullException("profile pet not found");
             
             
             var imageList = new List<string>();
@@ -69,6 +87,22 @@ namespace SOSPets.Services
             profilePet.TypePet, profilePet?.Description, profilePet?.UrlPhotoProfile, imageList);
             
             return profilePetOutput;
+        }
+        
+        public async Task DeleteProfilePetAsync(int id)
+        {
+            var profilePet = await _dbcontext.ProfilePets.Include(x=> x.PhotosProfilePet).FirstOrDefaultAsync(x => x.Id == id);
+            
+            
+            
+            if(profilePet is null)
+                throw new ArgumentNullException(nameof(profilePet));
+            
+            
+            _dbcontext.ProfilePets.Remove(profilePet);
+            
+            await _dbcontext.SaveChangesAsync();
+
         }
 
 

@@ -2,7 +2,6 @@
 using SOSPets.Data;
 using SOSPets.Domain.Models;
 using SOSPets.Services.Interface;
-using SOSPets.ViewModel.Session;
 using SOSPets.ViewModel.Session.Edit;
 
 namespace SOSPets.Services
@@ -18,11 +17,13 @@ namespace SOSPets.Services
         }
 
         public async Task<Profile?> GetProfileAsync(string uid)
-            => await _dbcontext.Profiles.AsNoTracking()
-                                        .Include(x => x.ProfilesPet)
-                                        .Include(x => x.User)
-                                        .Include(x => x.User.Address)
-                                        .FirstOrDefaultAsync(x => x.User.UID == uid);
+        {
+            return await _dbcontext.Profiles.AsNoTracking()
+                .Include(x => x.ProfilesPet)
+                .Include(x => x.User)
+                .Include(x => x.User.Address)
+                .FirstOrDefaultAsync(x => x.User.UID == uid);
+        }
 
         public async Task AddProfileAsync(string uid)
         {
