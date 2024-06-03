@@ -27,20 +27,12 @@ namespace SOSPets.Services
 
 
             if (registersList == null || registersList.Count == 0)
-                throw new Exception("aquiiiii - GXETSQRQWER");
-
-            var homeOutPutList = new List<HomeOutput>();
-            foreach(var reg in registersList)
-            {
-                if (reg.ProfilesPet == null) continue;
-                var index = 0;
-                for (; index < reg.ProfilesPet.Count; index++)
-                {
-                    var reg2 = reg.ProfilesPet[index];
-                    homeOutPutList.Add(new HomeOutput(reg2.Name, reg2.Description!, reg?.UrlPhoto, reg.User.Name,
-                        reg2.Id, reg2?.UrlPhotoProfile));
-                }
-            }
+                throw new Exception("Caiu Aqui - GXETSQRQWER");
+            
+            var homeOutPutList = registersList
+                .Where(reg => reg.ProfilesPet != null)
+                .SelectMany(reg => reg.ProfilesPet.Select(reg2 => new HomeOutput(reg2.Name, reg2.Description!, reg?.UrlPhoto, reg.User.Name, reg2.Id, reg2?.UrlPhotoProfile)))
+                .ToList();
 
             return homeOutPutList.Skip(7 * page).Take(7).ToList();
 

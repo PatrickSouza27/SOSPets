@@ -16,7 +16,6 @@ namespace SOSPets.Services
             _dbcontext = instanceDb;
             _s3Service = serviceS3;
         }
-        
         private async Task<List<ProfilePet>> GetProfileUser()
         {
             var profilePet =  await _dbcontext.ProfilePets.Include(x => x.ProfileUser)
@@ -59,17 +58,19 @@ namespace SOSPets.Services
          
 
         }
-        
         public async Task<List<AddressGeoOutput>?> GetGeoAddressPetsAsync(string uid)
         {
             var profilePet = await GetProfileUser();
-            var profilePetList = profilePet.Select(x=> x.ProfileUser.User).DistinctBy(x=> x.UID).ToList();
+            var profilePetList = profilePet
+                                            .Where(x => x.ProfileUser.User.UID != uid)
+                                            .Select(x => x.ProfileUser.User)
+                                            .DistinctBy(x => x.UID)
+                                            .ToList();
             
             var addressList = profilePetList.Select(x=> new AddressGeoOutput(x.UID, x.Address.Latitude, x.Address.Longitude)).ToList();
             
             return addressList;
         }
-        
         public async Task<ProfilePetByIdOutput> GetProfilePetByIdAsync(int id)
         {
 
@@ -88,7 +89,6 @@ namespace SOSPets.Services
             
             return profilePetOutput;
         }
-        
         public async Task DeleteProfilePetAsync(int id)
         {
             var profilePet = await _dbcontext.ProfilePets.Include(x=> x.PhotosProfilePet).FirstOrDefaultAsync(x => x.Id == id);
