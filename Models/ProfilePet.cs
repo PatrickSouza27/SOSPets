@@ -34,9 +34,9 @@ namespace SOSPets.Domain.Models
             Name = profileInput.Name;
             Description = profileInput.Description;
             UrlPhotoProfile = profileInput.Image;
-            TypePet = profileInput.TypePet;
-            SizePet = profileInput.SizePet;
-            StageLife = profileInput.StageLife;
+            TypePet = profileInput.Type;
+            SizePet = profileInput.Size;
+            StageLife = profileInput.Stage;
             DateCreatedProfile = DateTime.Now;
         }
 

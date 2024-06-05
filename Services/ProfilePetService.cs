@@ -16,7 +16,7 @@ namespace SOSPets.Services
             _dbcontext = instanceDb;
             _s3Service = serviceS3;
         }
-        private async Task<List<ProfilePet>> GetProfileUser()
+        private async Task<List<ProfilePet>> GetListProfilesPet()
         {
             var profilePet =  await _dbcontext.ProfilePets.Include(x => x.ProfileUser)
                 .Include(x => x.ProfileUser.User)
@@ -60,7 +60,7 @@ namespace SOSPets.Services
         }
         public async Task<List<AddressGeoOutput>?> GetGeoAddressPetsAsync(string uid)
         {
-            var profilePet = await GetProfileUser();
+            var profilePet = await GetListProfilesPet();
             var profilePetList = profilePet
                                             .Where(x => x.ProfileUser.User.UID != uid)
                                             .Select(x => x.ProfileUser.User)
@@ -74,8 +74,8 @@ namespace SOSPets.Services
         public async Task<ProfilePetByIdOutput> GetProfilePetByIdAsync(int id)
         {
 
-            var profilePetList = await GetProfileUser();
-            var profilePet = profilePetList.FirstOrDefault(x=> x.Id == id) ?? throw new ArgumentNullException("profile pet not found");
+            var profilePetList = await GetListProfilesPet();
+            var profilePet = profilePetList.FirstOrDefault(x=> x.Id == id) ?? throw new ArgumentNullException(nameof(id));
             
             
             var imageList = new List<string>();

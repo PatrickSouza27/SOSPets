@@ -11,12 +11,9 @@ namespace SOSPets.ViewModel.Session
         public string? Description { get; set; }
 
         public string? Image { get; set; }
-        [JsonProperty("type")]
-        public TypePetEnum TypePet { get; set; }
-        [JsonProperty("size")]
-        public SizePetEnum SizePet { get; set; }
-        [JsonProperty("stage")]
-        public StageLifeEnum StageLife { get; set; }
+        public TypePetEnum Type { get; set; }
+        public SizePetEnum Size { get; set; }
+        public StageLifeEnum Stage { get; set; }
 
         public List<PhotosProfileViewModelInput>? Images { get; set; }
 
