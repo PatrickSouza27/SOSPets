@@ -37,7 +37,7 @@ namespace SOSPets.Services
                 registersList = registersList.Where(x => x.StageLife.Equals(filter.StageLife)).ToList();
 
 
-            var homeOutPutList = registersList.Select(reg => new HomeOutput(reg.Name, reg.Description, reg?.ProfileUser.UrlPhoto, reg.ProfileUser.User.Name, reg.Id, reg?.UrlPhotoProfile, reg.ProfileUser.User.UID)).ToList();
+            var homeOutPutList = registersList.Select(reg => new HomeOutput(reg.Name, reg.Description, reg?.ProfileUser.UrlPhoto, reg.ProfileUser.User.Name, reg.Id, reg?.UrlPhotoProfile, reg.ProfileUser.User.UID, reg.StageLife, reg.SizePet)).ToList();
 
             return homeOutPutList.Skip(7 * page).Take(7).ToList();
         }

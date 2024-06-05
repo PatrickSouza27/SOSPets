@@ -85,7 +85,7 @@ namespace SOSPets.Services
             }
             
             var profilePetOutput = new ProfilePetByIdOutput(profilePet.ProfileUser.User.UID, profilePet.ProfileUser.User.Name, profilePet.Name, profilePet.SizePet, profilePet.StageLife,
-            profilePet.TypePet, profilePet?.Description, profilePet?.UrlPhotoProfile, imageList);
+            profilePet.TypePet, profilePet?.Description, profilePet?.UrlPhotoProfile, imageList, profilePet.ProfileUser.User.Address.Latitude, profilePet.ProfileUser.User.Address.Longitude);
             
             return profilePetOutput;
         }

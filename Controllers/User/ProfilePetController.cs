@@ -14,7 +14,6 @@ namespace SOSPets.Controllers.User
         public ProfilePetController(IProfilePetService profilePetService) => _profilePetService = profilePetService; 
 
         [HttpGet]
-        [SuppressMessage("ReSharper.DPA", "DPA0011: High execution time of MVC action", MessageId = "time: 3765ms")]
         public async Task<IActionResult> GetProfilePetById([FromQuery] int id)
         {
             try
@@ -54,7 +53,6 @@ namespace SOSPets.Controllers.User
         }
         
         [HttpDelete]
-        [SuppressMessage("ReSharper.DPA", "DPA0011: High execution time of MVC action", MessageId = "time: 3495ms")]
         public async Task<IActionResult> DeleteProfilePet([FromQuery] int id)
         {
             try

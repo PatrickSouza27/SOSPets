@@ -13,8 +13,10 @@ public class ProfilePetByIdOutput
     public string? Description { get; set; }
     public string? UrlPhotoPetMain { get; set; }
     public List<string>? Photos { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
     
-    public ProfilePetByIdOutput(string uidUser, string nameUser, string namepet, SizePetEnum size, StageLifeEnum stageLife, TypePetEnum typePet, string? description, string? urlPhotoProfilePet, List<string> photos)
+    public ProfilePetByIdOutput(string uidUser, string nameUser, string namepet, SizePetEnum size, StageLifeEnum stageLife, TypePetEnum typePet, string? description, string? urlPhotoProfilePet, List<string> photos, double lat, double longi)
     {
         UidUser = uidUser;
         NameUser = nameUser;
@@ -25,6 +27,8 @@ public class ProfilePetByIdOutput
         Description = description;
         UrlPhotoPetMain = urlPhotoProfilePet;
         Photos = new List<string>(photos);
+        Latitude = lat;
+        Longitude = longi;
     }
 
 

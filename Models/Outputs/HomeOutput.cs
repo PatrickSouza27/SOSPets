@@ -1,4 +1,6 @@
-﻿namespace SOSPets.Models.Outputs
+﻿using SOSPets.Domain.Models.Enums;
+
+namespace SOSPets.Models.Outputs
 {
     public class HomeOutput
     {
@@ -9,8 +11,10 @@
         public int IdProfilePet { get; set; }
         public string? PhotoProfilePet { get; set; }
         public string UidUser { get; set; }
+        public StageLifeEnum StageLife { get; set; }
+        public SizePetEnum SizePet { get; set; }
         public HomeOutput() { }
-        public HomeOutput(string title, string? description, string? photoUser, string nameUser, int idProfilePet, string? photoProfilePet, string uidUser)
+        public HomeOutput(string title, string? description, string? photoUser, string nameUser, int idProfilePet, string? photoProfilePet, string uidUser, StageLifeEnum stage, SizePetEnum size)
         {
             Title = title;
             Description = description;
@@ -19,6 +23,8 @@
             IdProfilePet = idProfilePet;
             PhotoProfilePet = photoProfilePet;
             UidUser = uidUser;
+            StageLife = stage;
+            SizePet = size;
         }
     }
 }
